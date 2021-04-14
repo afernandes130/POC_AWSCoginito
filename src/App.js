@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Amplify from "aws-amplify";
+import amplifyConfig from "./amplify-config";
+import { SignUpForm } from "./pages/signup-form";
+import { SignInForm } from "./pages/signin-form ";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+Amplify.configure(amplifyConfig);
 
 function App() {
+  console.log(process.env.REACT_APP_AWSUSER_pools_id);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/sigup">
+                Cadastro de Usuario
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/sigin">
+                Autenticação
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <Route path="/sigup">
+            <SignUpForm />
+          </Route>
+          <Route path="/sigin">
+            <SignInForm />
+          </Route>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
