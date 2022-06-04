@@ -9,6 +9,7 @@ export class SignUpForm extends Component {
         password: '',
         email: '',
         phoneNumber: '',
+        fullName: '',   
         confirmationCode: '',
         submittingSignUp: false,
         submittingConfirmation: false
@@ -30,7 +31,8 @@ export class SignUpForm extends Component {
 
     handleSubmitSignUp(e) {
         e.preventDefault(e);
-        const { confirmed, signedUp, username, password, email, phoneNumber } = this.state;
+        // const { confirmed, signedUp, username, password, email, phoneNumber } = this.state;
+        const { confirmed, signedUp, username, password, email, fullName } = this.state;
         
         if(!confirmed && !signedUp) {
             this.setState({ submittingSignUp: true });
@@ -40,7 +42,9 @@ export class SignUpForm extends Component {
                 password,
                 attributes: {
                     email,
-                    phone_number: phoneNumber
+                    nickname: 'tetste nickname',
+                    // phone_number: phoneNumber
+                    name: fullName
                 }
             })
             .then(() => this.setState({ signedUp: true, submittingSignUp: false }))
@@ -100,9 +104,13 @@ export class SignUpForm extends Component {
                     <label htmlFor="emailSignUpInput">E-mail</label>
                     <input className="form-control" type="email" name="email" id="emailSignUpInput" onChange={ this.handleChange } />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label htmlFor="phoneSignUpInput">Número de telefone</label>
                     <input className="form-control" type="text" name="phoneNumber" id="phoneSignUpInput" onChange={ this.handleChange } />
+                </div> */}
+                 <div className="form-group">
+                    <label htmlFor="nameSignUpInput">Nome Completo</label>
+                    <input className="form-control" type="text" name="fullName" id="nameSignUpInput" onChange={ this.handleChange } />
                 </div>
                 <div className="form-group">
                     <label htmlFor="passwordSignUpInput">Senha</label>

@@ -9,7 +9,9 @@ export class SignInForm extends Component {
         isSigningIn: false,
         isSigningOut: false,
         tokenId: '',
-        refreshToken: ''
+        refreshToken: '',
+        fullName: '',
+        email: '',
     }
 
     constructor(props) {
@@ -44,6 +46,7 @@ export class SignInForm extends Component {
                 .then((userSession) => {
                     console.log("Got user currentSession:");
                     console.log(userSession);
+                    console.log(userSession.get);
                     this.setState({ 
                         signedIn: true, 
                         isSigningIn: false,
@@ -55,6 +58,16 @@ export class SignInForm extends Component {
                     this.setState({ isSigningIn: false });
                     console.log(err)
                 });
+
+                Auth.currentUserInfo()
+                .then((user) => {
+                    console.log("Got user infooooo!");
+                    console.log(user);
+                    this.setState({ 
+                        fullName: user.attributes.name,
+                        email: user.attributes.email
+                    });
+            });
 
             }).catch((err) => {
                 this.setState({ isSigningIn: false });
@@ -117,12 +130,26 @@ export class SignInForm extends Component {
                     isSigningIn: false,
                     tokenId: userSession.idToken.jwtToken,
                     refreshToken: userSession.refreshToken.token
+                    
                 });
             })
             .catch((err) => {
                 this.setState({ isSigningIn: false });
                 console.log(err)
             });
+
+        Auth.currentUserInfo()
+            .then((user) => {
+                console.log("Got user infooooo!");
+                console.log(user);
+                this.setState({ 
+                    fullName: user.attributes.name,
+                    email: user.attributes.email
+                });
+
+            });
+
+        
     }
 
     render() {
@@ -130,6 +157,10 @@ export class SignInForm extends Component {
             return (<div>
                 <div><b>Your tokenId:</b></div><div>{this.state.tokenId}</div>
                 <div><b>Your refreshToken:</b></div><div>{this.state.refreshToken}</div>
+
+                <div><b>Your fullName Attributes:</b></div><div>{this.state.fullName}</div>
+                <div><b>Your email Attributes:</b></div><div>{this.state.email}</div>
+                <br></br>
                 <button className="btn-toggle" onClick={this.handleLogout} className="btn btn-danger">Sair</button>
             </div>)
         }
